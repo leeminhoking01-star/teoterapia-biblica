@@ -1,0 +1,345 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: #f7f3ee;
+    color: #40352f;
+}
+
+header {
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+    color: white;
+    background: linear-gradient(135deg, #4b3944, #765c6a, #9a7b88);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 58px;
+    letter-spacing: 1px;
+}
+
+header p {
+    margin-top: 18px;
+    font-size: 21px;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 14px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+nav button {
+    border: none;
+    background: transparent;
+    color: #66515b;
+    padding: 12px 24px;
+    margin: 4px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+nav button:hover {
+    background: #eee3e8;
+    transform: translateY(-2px);
+}
+
+main {
+    width: 90%;
+    max-width: 1050px;
+    margin: 55px auto;
+}
+
+.card {
+    background: white;
+    padding: 38px;
+    margin-bottom: 30px;
+    border-radius: 28px;
+    box-shadow: 0 15px 45px rgba(75, 57, 65, 0.09);
+    border: 1px solid rgba(150, 120, 130, 0.12);
+    animation: aparecer 0.7s ease;
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #705565;
+    font-size: 27px;
+}
+
+.card p {
+    line-height: 1.8;
+}
+
+.verse {
+    position: relative;
+    padding: 38px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #f1e6eb, #eee8f2);
+    text-align: center;
+    font-size: 25px;
+    line-height: 1.7;
+    color: #493d45;
+}
+
+.verse::before {
+    content: "“";
+    display: block;
+    font-size: 70px;
+    line-height: 35px;
+    color: #9b788a;
+}
+
+.reference {
+    margin-top: 20px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #806171;
+}
+
+#reflectionText,
+#prayerText {
+    font-size: 18px;
+    line-height: 1.9;
+}
+
+#login,
+#admin {
+    display: none;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 15px 17px;
+    margin: 8px 0 22px;
+    border: 1px solid #d8cbd1;
+    border-radius: 15px;
+    background: #fcfafb;
+    color: #40352f;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #9b788a;
+    box-shadow: 0 0 0 4px rgba(155, 120, 138, 0.12);
+}
+
+textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.main-button {
+    border: none;
+    background: linear-gradient(135deg, #705565, #9b788a);
+    color: white;
+    padding: 15px 28px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.main-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(112, 85, 101, 0.25);
+}
+
+.youtube-section {
+    margin-top: 35px;
+    padding: 45px 30px;
+    text-align: center;
+    background: linear-gradient(135deg, #40343b, #705565);
+    color: white;
+    border-radius: 28px;
+    box-shadow: 0 15px 40px rgba(60, 45, 55, 0.18);
+}
+
+.youtube-section h2 {
+    margin-top: 0;
+    color: white;
+    font-size: 32px;
+}
+
+.youtube-section p {
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 28px;
+}
+
+.youtube-button {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 30px;
+    background: white;
+    color: #705565;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.youtube-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    margin-top: 80px;
+    background: #40343b;
+    color: white;
+    text-align: center;
+    padding: 45px 20px;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        min-height: 350px;
+    }
+
+    header h1 {
+        font-size: 39px;
+    }
+
+    header p {
+        font-size: 17px;
+    }
+
+    main {
+        width: 94%;
+        margin: 35px auto;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .verse {
+        padding: 27px;
+        font-size: 20px;
+    }
+
+    .youtube-section {
+        padding: 35px 20px;
+    }
+
+    .youtube-section h2 {
+        font-size: 26px;
+    }
+}
+.news-section {
+    margin: 35px 0;
+}
+
+.news-card {
+    border-left: 6px solid #9b788a;
+}
+
+.news-card h3 {
+    color: #705565;
+    font-size: 25px;
+    margin-top: 10px;
+}
+
+.news-highlight {
+    margin-top: 25px;
+    padding: 22px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f1e6eb, #eee8f2);
+}
+
+.news-highlight strong {
+    color: #705565;
+    font-size: 20px;
+}
+
+.contact-info {
+    margin-top: 25px;
+    font-size: 18px;
+}
+.logo-teoterapia {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    animation: logoAparecer 1s ease;
+}
+
+@keyframes logoAparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.logo-imagen {
+    display: block;
+    width: 180px;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto 20px auto;
+    border-radius: 12px;
+    animation: logoAparecer 1s ease;
+}
+
+@keyframes logoAparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.imagen-dia {
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    max-height: 500px;
+    object-fit: cover;
+    margin: 20px auto;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}

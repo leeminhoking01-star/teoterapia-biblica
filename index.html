@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teoterapia Bíblica</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+ <img src="peto.png" class="logo-imagen" alt="Teoterapia Bíblica"> 
+<h1>Teoterapia Bíblica</h1>
+<p>Un espacio de fe, paz y esperanza</p>
+</header>
+
+<nav>
+<button onclick="showHome()">Inicio</button>
+<button onclick="window.location.href='noticias.html'">Noticias</button>
+<button onclick="showLogin()">Administrador</button>
+</nav>
+
+<main>
+
+<section id="home">
+<section class="card">
+    <h2>Imagen del día</h2>
+    <img id="imagenDia" class="imagen-dia" src="" alt="Imagen del día">
+</section>
+<div class="card">
+<h2>Bienvenido</h2>
+<p>
+Este es un espacio para encontrar tranquilidad,
+reflexionar y acercarnos a la Palabra de Dios.
+</p>
+</div>
+
+<div class="card">
+<h2>Versículo del día</h2>
+
+<div class="verse">
+<span id="verseText">Cargando...</span>
+
+<div class="reference" id="verseReference"></div>
+</div>
+</div>
+
+<div class="card">
+<h2>Reflexión del día</h2>
+<p id="reflectionText">Cargando...</p>
+</div>
+
+<div class="card">
+<h2>Oración del día</h2>
+<p id="prayerText">Cargando...</p>
+</div>
+
+<div class="youtube-section">
+<h2>Búscanos en YouTube</h2>
+<p>También puedes acompañarnos en nuestro canal de YouTube.</p>
+
+<a
+href="https://www.youtube.com/@teoterapiabiblica"
+target="_blank"
+class="youtube-button">
+Visitar nuestro canal
+</a>
+</div>
+
+</section>
+<section class="news-section">
+
+<div class="card news-card">
+
+<h2>Noticias</h2>
+
+<h3>Curso gratuito: Seven Day</h3>
+
+<p>
+Teoterapia Bíblica presenta <strong>Seven Day</strong>, un curso completamente gratuito creado para acompañarte durante siete días en un proceso de reflexión, crecimiento espiritual y fortalecimiento personal.
+</p>
+
+<p>
+Durante el curso aprenderás a reflexionar sobre los siete pecados capitales y a trabajar cada día en diferentes aspectos de tu vida para buscar una transformación positiva.
+</p>
+
+<p>
+El objetivo de Seven Day es ayudarte a reconocer aquello que puede alejarnos de una vida de fe, fortalecer tus decisiones y acercarte más a Dios.
+</p>
+
+<div class="news-highlight">
+
+<strong>¡Es completamente gratuito!</strong>
+
+<p>
+No necesitas pagar para participar. Si quieres recibir más información sobre el curso, comunícate con nosotros.
+</p>
+
+</div>
+
+<p class="contact-info">
+<strong>Más información:</strong><br>
+321 509 38 85
+</p>
+
+</div>
+
+</section>
+<section id="login">
+
+<div class="card">
+
+<h2>Administrador</h2>
+
+<p>Ingresa el PIN para continuar.</p>
+
+<input id="pin" type="password" placeholder="PIN">
+
+<button class="main-button" onclick="login()">
+Entrar
+</button>
+
+<p id="loginMessage"></p>
+
+</div>
+
+</section>
+
+<section id="admin">
+
+<div class="card">
+
+<h2>Panel de administrador</h2>
+
+<label>Versículo</label>
+<textarea id="newVerse"></textarea>
+
+<label>Referencia</label>
+<input id="newReference" type="text">
+
+<label>Reflexión</label>
+<textarea id="newReflection"></textarea>
+
+<label>Oración</label>
+<textarea id="newPrayer"></textarea>
+
+<button class="main-button" onclick="publish()">
+Publicar cambios
+</button>
+
+<p id="publishMessage"></p>
+
+</div>
+
+</section>
+
+</main>
+
+<footer>
+Teoterapia Bíblica<section class="youtube-section">
+<h2>Búscanos en WhatsApp</h2>
+<p>Encuéntranos en WhatsApp como Teoterapia Bíblica.</p>
+</section>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://muwjbryqjubpsvxjhkwa.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_J50AGh8g2smD7fhNhPIQTA_Bn78qLmJ";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const PIN = "2026";
+
+let contenidoActual = null;
+
+function showHome() {
+    document.getElementById("home").style.display = "block";
+    document.getElementById("login").style.display = "none";
+    document.getElementById("admin").style.display = "none";
+}
+
+function showLogin() {
+    document.getElementById("home").style.display = "none";
+    document.getElementById("login").style.display = "block";
+    document.getElementById("admin").style.display = "none";
+}
+
+function login() {
+    const pin = document.getElementById("pin").value;
+
+    if (pin === PIN) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("admin").style.display = "block";
+        document.getElementById("loginMessage").textContent = "";
+
+        cargarPanel();
+    } else {
+        document.getElementById("loginMessage").textContent = "PIN incorrecto";
+    }
+}
+
+async function cargarContenido() {
+    const { data, error } = await supabaseClient
+        .from("contenido")
+        .select("*")
+        .order("id", { ascending: false })
+        .limit(1);
+
+    if (error) {
+        document.getElementById("verseText").textContent = "No se pudo cargar el contenido.";
+        console.error(error);
+        return;
+    }
+
+    if (data && data.length > 0) {
+        contenidoActual = data[0];
+        document.getElementById("imagenDia").src = contenidoActual.imagen;
+
+        document.getElementById("verseText").textContent =
+            contenidoActual.versiculo || "";
+
+        document.getElementById("verseReference").textContent =
+            contenidoActual.referencia || "";
+
+        document.getElementById("reflectionText").textContent =
+            contenidoActual.reflexion || "";
+
+        document.getElementById("prayerText").textContent =
+            contenidoActual.oracion || "";
+    }
+}
+
+function cargarPanel() {
+    if (!contenidoActual) {
+        return;
+    }
+
+    document.getElementById("newVerse").value =
+        contenidoActual.versiculo || "";
+
+    document.getElementById("newReference").value =
+        contenidoActual.referencia || "";
+
+    document.getElementById("newReflection").value =
+        contenidoActual.reflexion || "";
+
+    document.getElementById("newPrayer").value =
+        contenidoActual.oracion || "";
+}
+
+async function publish() {
+    const verse = document.getElementById("newVerse").value;
+    const reference = document.getElementById("newReference").value;
+    const reflection = document.getElementById("newReflection").value;
+    const prayer = document.getElementById("newPrayer").value;
+
+    if (!contenidoActual) {
+        document.getElementById("publishMessage").textContent =
+            "No hay contenido para actualizar.";
+
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("contenido")
+        .update({
+            versiculo: verse,
+            referencia: reference,
+            reflexion: reflection,
+            oracion: prayer
+        })
+        .eq("id", contenidoActual.id)
+        .select()
+        .single();
+
+    if (error) {
+        document.getElementById("publishMessage").textContent =
+            "No se pudo guardar el cambio.";
+
+        console.error(error);
+        return;
+    }
+
+    contenidoActual = data;
+
+    document.getElementById("verseText").textContent =
+        data.versiculo;
+
+    document.getElementById("verseReference").textContent =
+        data.referencia;
+
+    document.getElementById("reflectionText").textContent =
+        data.reflexion;
+
+    document.getElementById("prayerText").textContent =
+        data.oracion;
+
+    document.getElementById("publishMessage").textContent =
+        "Cambios guardados en la base de datos.";
+}
+
+cargarContenido();
+</script>
+
+</body>
+</html>
